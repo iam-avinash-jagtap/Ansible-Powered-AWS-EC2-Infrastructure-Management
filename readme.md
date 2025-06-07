@@ -1,10 +1,12 @@
 # 🔧 Ansible Powered AWS EC2 Infrastructure Management
-
 This project demonstrates automated provisioning and configuration management using **Ansible** on a set of AWS EC2 Ubuntu instances. The goal is to:
 
 * 🧠 Centrally manage remote servers using Ansible (without manual SSH).
+
 * 🌐 Install and configure NGINX via Ansible playbooks.
+
 * 🚀 Deploy a static website to a production server.
+
 * 🛠️ Showcase infrastructure as code (IaC) and configuration automation capabilities.
 
 ---
@@ -15,10 +17,10 @@ Four EC2 Ubuntu instances were launched on AWS:
 
 | 🖥️ Instance Name | 🔧 Role           | 📦 Installation            |
 | ----------------- | ----------------- | -------------------------- |
-| `ansible-master`  | 🧭 Control Node   | 🛠️ Ansible                |
+| `ansible-master`  | 🧭 Control Node   | 🛠️ `Ansible` on Master    |
 | `server-1`        | 🌐 Web Server     | 📥 `nginx` by Master       |
 | `server-2`        | 🌐 Web Server     | 📥 `nginx` by Master       |
-| `server-3`        | 🌍 Production Web | 🖼️ `static web` by Master |
+| `server-3`        | 🌍 Production Web | 🖼️ `static web host` by Master |
 
 > 🔐 All instances were launched with the **same SSH key** named `ansible-master.pem`.
 
@@ -42,7 +44,9 @@ project/
 Before you begin, ensure you have the following ready:
 
 * **AWS Account:** Access to launch and manage EC2 instances.
+
 * **Key Pair (.pem file):** A valid SSH key pair for connecting to your EC2 instances.
+
 * **Security Groups:** Properly configured to allow inbound traffic on ports:
 
   * SSH (22)
@@ -51,11 +55,15 @@ Before you begin, ensure you have the following ready:
 * **Basic Knowledge:**
 
   * SSH and Linux command line
+
   * Basic understanding of Ansible and YAML syntax
+
 * **Local Environment:**
 
-  * `ssh` client installed (Linux/Mac) or PuTTY (Windows)
+  * `ssh` client installed (Linux/Mac) or `git bash` on windows
+
   * `scp` command for secure file transfer
+
 * **Ubuntu EC2 Instances:** Recommended AMI versions compatible with Ansible and NGINX installation.
 
 ---
@@ -66,6 +74,8 @@ To begin the project, launch 4 EC2 instances on AWS.
 Steps to launch EC2 Instances, [click\_here](https://github.com/iam-avinash-jagtap/Linux-Server-Deployment-on-AWS-E2.git)
 
 📝 *Note:- Ensure that the correct **key pair name** and **AMI (Amazon Machine Image)** are selected before launching the instances. Additionally, make sure to allow inbound traffic for **SSH (port 22)**, **HTTP (port 80)**, and **HTTPS (port 443)** in the security group settings.*
+
+![Running_instances](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/Running%20Instances.png)
 
 ---
 
@@ -88,7 +98,7 @@ To manage `server-nodes` Install **Ansible** on Master mode:
 1. 📥 Clone repository to access `install_ansible.sh` script:
 
 ```bash
-git clone
+git clone https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management.git
 # Rename Directory 
 mv Ansible Powered AWS EC2 Infrastructure Management/ project
 ```
@@ -130,7 +140,9 @@ mkdir keys
 ```
 
 2. 💻 Open another Terminal
+
 3. 📍 Navigate to priavte key location
+
 4. 📤 Use `SCP` Command:
 
 ```bash
@@ -180,11 +192,15 @@ _Note:- Ensure you correctly paste the public IP addresses of your servers in th
 ansible all -m ping
 ```
 
+![ping](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/Ping.png)
+
 4. 💡 Check memory usage on all managed servers using ad-hoc command:
 
 ```bash
 ansible all -a "free -h"
 ```
+
+![ad-hoc](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/ad-hoc.png)
 
 ---
 
@@ -196,7 +212,14 @@ Now install Nginx on servers (server-1, server-2). The playbook is already prepa
 ansible-playbook install_nginx.yml
 ```
 
-✅ Nginx has been successfully installed and activated on server-1 and server-2.
+![Install_nginx](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/Install%20nginx.png)
+
+#### ✅ Nginx has been successfully installed and activated on server-1 and server-2.
+- Copy the Public IP of `server-1` or `server-2` from your AWS EC2 dashboard.
+
+- Open your browser and visit: `http://<Public_IP_of_Server-1>`
+  
+![Nginx_webserver](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/nginx_webpage.png)  
 
 ---
 
@@ -208,14 +231,24 @@ Now install nginx on prod (server-3). The playbook is already prepared - you jus
 ansible-playbook install_nginx_static.yml
 ```
 
-✅ Nginx has been successfully installed and activated on server-3, and a static website has also been hosted on it.
+![Install_Nginx_Static_Website](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/Install%20nginx%20%20static.png)
+
+#### ✅ Nginx has been successfully installed and activated on server-3, and a static website has also been hosted on it.
+
+- Copy the Public IP of `server-1` or `server-2` from your AWS EC2 dashboard.
+
+- Open your browser and visit: `http://<Public_IP_of_Server-3>`
+
+![Static_Website](https://github.com/iam-avinash-jagtap/Ansible-Powered-AWS-EC2-Infrastructure-Management/blob/master/Images/Static%20Website.png)
 
 ---
 
 ### ✅ Outcome
 
 ✔️ Successfully managed 3 EC2 servers using Ansible from a single control node without manual SSH login.
+
 ✔️ Installed NGINX on remote servers with a simple YAML playbook.
+
 ✔️ Deployed a personal static site automatically on a production server.
 
 ---
@@ -223,10 +256,15 @@ ansible-playbook install_nginx_static.yml
 ### 📘 Skills Demonstrated
 
 * 🗂️ Ansible Inventory & Configuration
+
 * 🔐 Secure SSH Key Management
+  
 * ⚡ Ad-Hoc Ansible Commands
+
 * 📜 Playbook Design
+
 * 🛠️ Web Server Setup
+
 * 🌐 Static Website Deployment
 
 ---
